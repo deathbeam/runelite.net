@@ -1,0 +1,17 @@
+{
+  "name": "runelite.net",
+  "scripts": {
+  },
+  "env": {
+    "NODE_ENV": "development",
+    "NOW": "true"
+  },
+  "formation": {
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+
+  ]
+}
