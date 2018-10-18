@@ -44,6 +44,7 @@ class Home extends Component {
           playing={sessionCount}
         />
         <Layout>
+          <h1>Heroku Deploy Test</h1>
           <h1>
             Features{' '}
             <Link href='/features' style={{ fontSize: 18 }}>
