@@ -15,7 +15,12 @@ const configNameFilters = [
 ]
 
 // Actions
-export const { fetchConfig, setConfig, changeAccount } = createActions(
+export const {
+  fetchConfig,
+  updateConfig,
+  setConfig,
+  changeAccount
+} = createActions(
   {
     FETCH_CONFIG: () => async (dispatch, getState) => {
       const version = getLatestRelease(getState())
@@ -51,6 +56,31 @@ export const { fetchConfig, setConfig, changeAccount } = createActions(
       }
 
       return config
+    },
+    UPDATE_CONFIG: (key, value) => async (dispatch, getState) => {
+      const version = getLatestRelease(getState())
+      const uuid = getState().account.uuid
+
+      if (!uuid) {
+        return {}
+      }
+
+      if (value.length > 0) {
+        await runeliteApi(`runelite-${version}/config/${key}`, {
+          method: 'PUT',
+          headers: {
+            'RUNELITE-AUTH': uuid
+          },
+          body: value
+        })
+      } else {
+        await runeliteApi(`runelite-${version}/config/${key}`, {
+          method: 'DELETE',
+          headers: {
+            'RUNELITE-AUTH': uuid
+          }
+        })
+      }
     }
   },
   'SET_CONFIG',

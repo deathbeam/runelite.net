@@ -17,9 +17,14 @@ import {
   setPluginSorting
 } from '../modules/plugin-hub'
 import SearchBar from '../components/search-bar'
-import { fetchConfig } from '../modules/config'
+import {
+  fetchConfig,
+  getExternalPlugins,
+  updateConfig
+} from '../modules/config'
 import Choice from '../components/choice'
 import { numberWithCommas } from '../util'
+import { isLoggedIn } from '../modules/account'
 
 const description =
   'The Plugin Hub is a repository of plugins that are created and ' +
@@ -33,21 +38,44 @@ const handleChange = (event, setPluginFilter) =>
     name: event.target.value
   })
 
+const handleUpdate = (updateConfig, fetchConfig, externalPlugins) => async (
+  installed,
+  pluginName
+) => {
+  if (installed) {
+    externalPlugins = externalPlugins.filter(i => i !== pluginName)
+  } else {
+    externalPlugins.push(pluginName)
+  }
+
+  await updateConfig('runelite.externalPlugins', externalPlugins.join(','))
+  await fetchConfig()
+}
+
 const PluginHub = ({
   author,
   externalPlugins,
+  configExternalPlugins,
   pluginFilter,
   pluginSorting,
   setPluginFilter,
-  setPluginSorting
+  setPluginSorting,
+  updateConfig,
+  fetchConfig,
+  loggedIn
 }) => {
-  externalPlugins = externalPlugins.filter(plugin =>
+  externalPlugins = [...externalPlugins].filter(plugin =>
     author ? plugin.author === author : true
   )
 
   const pluginCount = externalPlugins.length
   const installedPluginCount = externalPlugins.filter(p => p.installed).length
   const totalCount = externalPlugins.reduce((a, b) => a + b.count, 0)
+  const updateFunction = handleUpdate(
+    updateConfig,
+    fetchConfig,
+    configExternalPlugins
+  )
 
   return (
     <Layout>
@@ -70,6 +98,15 @@ const PluginHub = ({
                 </a>
                 .
               </p>
+              {loggedIn && (
+                <p>
+                  <span class="badge badge-warning">
+                    <b>Warning</b>
+                  </span>{' '}
+                  Installing and uninstalling plugins through this interface
+                  requires client restart.
+                </p>
+              )}
             </div>
             <div class="col-sm-4">
               {totalCount > 0 && (
@@ -112,7 +149,11 @@ const PluginHub = ({
           </div>
           <div class="row">
             {externalPlugins.map(plugin => (
-              <ExternalPlugin key={plugin.internalName} {...plugin} />
+              <ExternalPlugin
+                key={plugin.internalName}
+                {...plugin}
+                update={updateFunction}
+              />
             ))}
           </div>
         </div>
@@ -124,8 +165,10 @@ const PluginHub = ({
 const mapStateToProps = (state, props) => ({
   ...props,
   externalPlugins: getSortedExternalPlugins(state),
+  configExternalPlugins: getExternalPlugins(state),
   pluginFilter: getPluginFilter(state),
-  pluginSorting: getPluginSorting(state)
+  pluginSorting: getPluginSorting(state),
+  loggedIn: isLoggedIn(state)
 })
 
 const mapDispatchToProps = dispatch =>
@@ -136,7 +179,8 @@ const mapDispatchToProps = dispatch =>
       fetchExternalPlugins,
       fetchPluginHubStats,
       setPluginFilter,
-      setPluginSorting
+      setPluginSorting,
+      updateConfig
     },
     dispatch
   )
