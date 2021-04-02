@@ -5,7 +5,7 @@ import Meta from '../components/meta'
 import { connect } from 'react-redux'
 import '../components/tooltip.css'
 import './tag.css'
-import { point, rectangle, Control, DomUtil, DomEvent } from 'leaflet'
+import L, { point, rectangle, Control, DomUtil, DomEvent } from 'leaflet'
 import {
   MapContainer,
   TileLayer,
@@ -16,34 +16,32 @@ import {
 } from 'react-leaflet'
 import './tile.scss'
 
-// lat/lng calculations source
-// https://github.com/Explv/Explv.github.io/blob/master/js/model/Position.js
-const MAP_HEIGHT_PX = 296704
-const RS_TILE_WIDTH_PX = 32
-const RS_TILE_HEIGHT_PX = 32
-const RS_OFFSET_X = 1152
-const RS_OFFSET_Y = 8328
 const BOUNDS_TOLERANCE = 4
-const MIN_ZOOM = 8
-const MAX_ZOOM = 11
-const RS_CENTER_X = 8
 
-const fromLatLng = (map, latLng) => {
-  const point = map.project(latLng, MAX_ZOOM)
-  point.x += RS_CENTER_X * 2
-  let y = MAP_HEIGHT_PX - point.y + RS_TILE_HEIGHT_PX / 4
-  y = Math.round((y - RS_TILE_HEIGHT_PX) / RS_TILE_HEIGHT_PX) + RS_OFFSET_Y
-  const x =
-    Math.round((point.x - RS_TILE_WIDTH_PX) / RS_TILE_WIDTH_PX) + RS_OFFSET_X
-  return { x, y }
-}
+L.CRS.Simple.infinite = false
+L.CRS.Simple.projection.bounds = new L.Bounds([
+  [0, 0],
+  [12800, 12800]
+])
 
-const toLatLng = (map, x, y) => {
-  x = (x - RS_OFFSET_X) * RS_TILE_WIDTH_PX + RS_TILE_WIDTH_PX / 4
-  y = MAP_HEIGHT_PX - (y - RS_OFFSET_Y) * RS_TILE_HEIGHT_PX
-  x -= RS_CENTER_X
-  const latLng = map.unproject(point(x, y), MAX_ZOOM)
-  return [latLng.lat, latLng.lng]
+const translateBounds = bounds => {
+  var newbounds = [
+    [0, 0],
+    [12000, 12000]
+  ]
+  if (Array.isArray(bounds) && bounds.length === 2) {
+    // South-West
+    if (Array.isArray(bounds[0]) && bounds[0].length === 2) {
+      newbounds[0][0] = bounds[0][1]
+      newbounds[0][1] = bounds[0][0]
+    }
+    // North-East
+    if (Array.isArray(bounds[1]) && bounds[1].length === 2) {
+      newbounds[1][0] = bounds[1][1]
+      newbounds[1][1] = bounds[1][0]
+    }
+  }
+  return newbounds
 }
 
 const toColor = num => {
@@ -86,29 +84,7 @@ const mapTile = tile => {
 }
 
 const prepareMap = map => {
-  const mouseRect = rectangle(
-    [
-      [0, 0],
-      [0, 0]
-    ],
-    {
-      color: '#FFFFFF',
-      fillColor: '#FFFFFF',
-      fillOpacity: 0.3,
-      weight: 1,
-      interactive: false
-    }
-  )
-
-  mouseRect.addTo(map)
-
-  map.on('mousemove', function (e) {
-    const mousePos = fromLatLng(map, e.latlng)
-    mouseRect.setBounds([
-      toLatLng(map, mousePos.x, mousePos.y),
-      toLatLng(map, mousePos.x + 1, mousePos.y + 1)
-    ])
-  })
+  map.setView([3225, 3219], 2)
 
   const resetButton = new Control({ position: 'topleft' })
   resetButton.onAdd = map => {
@@ -133,10 +109,17 @@ const prepareMap = map => {
 
 const TileLayerHandler = ({ plane }) => (
   <TileLayer
-    url="https://raw.githubusercontent.com/Explv/osrs_map_tiles/master/{plane}/{z}/{x}/{y}.png"
-    noWrap={true}
-    tms={true}
+    url="https://maps.runescape.wiki/osrs/tiles/{mapID}_{cacheVersion}/{z}/{plane}_{x}_{-y}.png"
     plane={plane}
+    cacheVersion={'2019-03-28_1'}
+    mapID={0}
+    bounds={translateBounds([
+      [1052, 2396],
+      [3940, 4132]
+    ])}
+    minZoom={-3}
+    maxZoom={5}
+    maxNativeZoom={3}
   />
 )
 
@@ -148,18 +131,20 @@ const TileMapHandler = ({ tiles }) => {
   const maxX = Math.max(...tilesX) + BOUNDS_TOLERANCE
   const minY = Math.min(...tilesY) - BOUNDS_TOLERANCE
   const maxY = Math.max(...tilesY) + BOUNDS_TOLERANCE
-  const minCorner = toLatLng(map, minX, minY)
-  const maxCorner = toLatLng(map, maxX, maxY)
-  const viewport = [minCorner, maxCorner]
+  const viewport = translateBounds([
+    [minX, minY],
+    [maxX, maxY]
+  ])
 
   map.viewport = viewport
   map.fitBounds(viewport)
   map.setMaxBounds(viewport)
 
   return tiles.map(tile => {
-    const pos = toLatLng(map, tile.x, tile.y)
-    const pos2 = toLatLng(map, tile.x + 1, tile.y + 1)
-    const bounds = [pos, pos2]
+    const bounds = translateBounds([
+      [tile.x, tile.y],
+      [tile.x + 1, tile.y + 1]
+    ])
     return (
       <Fragment>
         {tile.label && (
@@ -189,11 +174,14 @@ const TileMap = ({ tiles }) => {
 
   return (
     <MapContainer
-      minZoom={MIN_ZOOM}
-      maxZoom={MAX_ZOOM}
-      zoom={(MAX_ZOOM + MIN_ZOOM) / 2}
+      maxBounds={[
+        [0, 0],
+        [12800, 12800]
+      ]}
+      maxBoundsViscosity={0.5}
       attributionControl={false}
       whenCreated={prepareMap}
+      crs={L.CRS.Simple}
     >
       <TileLayerHandler plane={tiles[0].z} />
       <TileMapHandler tiles={tiles} />
