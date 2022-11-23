@@ -9,7 +9,437 @@
   <link href="https://runelite.net" />
   <link href="https://runelite.net/atom.xml" rel="self" />
   <id>https://runelite.net/</id>
-  <updated>2022-08-06T19:21:56.994Z</updated>
+  <updated>2022-11-23T16:52:54.890Z</updated>
+  
+  <entry>
+    <id>https://runelite.net/blog/show/2022-10-05-1.9.0-Release</id>
+    <link href="https://runelite.net/blog/show/2022-10-05-1.9.0-Release" />
+    <title>1.9.0 Release</title>
+    <summary>Zoomable minimap and submenus</summary>
+    <updated>2022-10-05T15:00:00.000Z</updated>
+    <author>
+      <name>Adam</name>
+    </author>
+    <content type="xhtml">
+      <div xmlns="http://www.w3.org/1999/xhtml"><h3>Minimap zooming</h3>
+<p>The minimap now supports zooming! This works similar to the zoom you may be familiar with on the official mobile or steam clients. Enable the <code>Zoom</code> option in the <code>Minimap</code> plugin to use it. The zoom can be reset to the default level by right clicking the minimap.</p>
+<table>
+<thead>
+<tr>
+<th>In</th>
+<th>Default</th>
+<th>Out</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="/img/blog/1.9.0-Release/zoom-in.png" alt="zoom-in" /></td>
+<td><img src="/img/blog/1.9.0-Release/zoom-default.png" alt="zoom-default" /></td>
+<td><img src="/img/blog/1.9.0-Release/zoom-out.png" alt="zoom-out" /></td>
+</tr>
+</tbody>
+</table>
+<h3>Submenus</h3>
+<p>Last week we added support for collapsible submenus. This works similar to how the one from RS3 works. You may have noticed we've already converted the menu swapper for inventory and worn items to use this. Submenus allow grouping similar menus logically together, and greatly decreases the length and complexity of the menus on screen. You can tell if a menu has submenus by the presence of the <code>&gt;</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Before</th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="/img/blog/1.9.0-Release/submenuold.png" alt="submenuold" /></td>
+<td><img src="/img/blog/1.9.0-Release/submenunew.png" alt="submenunew" /></td>
+</tr>
+</tbody>
+</table>
+<p>There are also several smaller improvements and bug fixes, including:</p>
+<ul>
+<li>The run energy plugin now correctly accounts for the passive Ring of Endurance effect</li>
+<li>A bug causing the window to maximize over the Windows taskbar on the newest launcher version has been fixed</li>
+<li><code>terminal-notifier</code> on MacOS is now more reliably detected when installed into nonstandard locations</li>
+<li>The pickpocket timer now works with Martin the Master Farmer</li>
+<li>Drinking Liquid Adrenaline prior to the timer running out now correctly resets the timer</li>
+<li>Fix <code>!lvl toa expert</code> to work as expected</li>
+<li>Fresh start hiscores have been added to the hiscore panel</li>
+<li>The Tombs of Amascut background has been added to the login screen plugin</li>
+</ul>
+<p>Enjoy!</p>
+<p>- Adam</p>
+<h3>New commits</h3>
+<p>We had 22 contributors this update!</p>
+<pre><code>Adam (61):
+      menu swapper: remove old swap configs
+      party: idle timeout when on login screen
+      hiscore: add toa to mappings
+      runepouch: add divine runepouch
+      clues: add divine runepouch
+      use client runepouch rune id enum
+      chat commands: add toa shortnames
+      runelite: log input arguments at startup
+      loottracker: add cache of runes
+      loottracker: combine intricate pouch with common case
+      screenshot: add toa chest loot
+      overlay: layout toa party and raid interfaces
+      api: add varbit id and value to event
+      menu swapper: hide swap use/reset menus when customizable click is off
+      api: rename getVar to getVarpValue
+      infobox: add updateDuration method for timer
+      timers: add smelling salts buff timer
+      timers: add liquid adrenaline timer
+      timers: add silk dressing and blessed crystal scarb
+      crowdsourcing: remove movement crowdsourcing
+      menu swapper: fix npc currentAction check for shift
+      clientui: add low memory limit warning
+      client: invalidate declaredAnnotations caches after startup
+      clientui: make low memory link clickable
+      clientui: make low memory limits configurable
+      loottracker: add toa metadata
+      regen-timer: add lightbearer support
+      runelite.properties: change github link to discussions
+      opponent info: apply hp display style to hp hud
+      client: add logout timer plugin
+      devtools: fix examine tool for npcs
+      party: add isInParty method instead of checking members
+      party: remove unused inParty
+      party: include message type in Data message
+      ContainableFrame: fix parsing versions with patch level
+      world hopper: skip offline worlds
+      add quest speedrunning world type
+      client: add telemetry
+      run energy: use script event for replacing orb text
+      run energy: fix clearing text with replaceOrbText off
+      ui: fix frame maximized bounds with dpi scaling
+      containable frame: correct jdk bug number
+      menu swapper: remove redundant code block
+      api: add submenu api
+      menu swapper: use submenus for inv and worn item swaps
+      achievement diary: update to use new scroll interface
+      telemetry: include client errors
+      achievement diary: invoke new diary scrollbar update script
+      api: add localpoint support for hintarrow
+      notifier: add comment about terminal-notifier launcher version check
+      notifier: remove needless commands list copy
+      mta: fix telekinetic room
+      Bump to 1.9.0-SNAPSHOT
+      api: add fsw
+      world hopper: add fsw
+      xp updater: add fsw
+      hiscores: add fsw
+      ge: add fsw
+      colorpicker: use clientui icon
+      colorpicker: use parent always on top setting
+      api: add zoomable minimap
+
+Alexsuperfly (1):
+      chat-commands: fix widget id for counters page
+
+Blake Felt (1):
+      item identification: Add Tombs of Amascut potions (#15581)
+
+Brady Ryun (1):
+      timers: Add Martin the Master Farmer pickpocket timer
+
+Ecki (1):
+      emoji: Change clown image to twemoji version (#15533)
+
+Elias Lahham (1):
+      GameTimer: Update Liq Adrenaline time to 150s
+
+Ferrariic (1):
+      icontextfield: allow custom image icons
+
+Hammmed (1):
+      game: Add isDying override for Wall beasts (#15699)
+
+Hugo (1):
+      run energy: add ring of endurance
+
+JZomDev (1):
+      timers: fix liquid adrenaline reset
+
+Jonathan Lee (1):
+      run energy: improve energy remaining formula
+
+Jordan Atwood (10):
+      skill calc: Add Menaphite remedy
+      item stats: Add Menaphite remedy
+      ItemMapping: Add Tombs of Amascut items
+      HotColdLocation: Fix vertical centering of dark altar spot
+      worldmap: Add Tombs of Amascut location
+      clues: Clarify Kamil dig cryptic clue message
+      world map: Add Necropolis obelisk sceptre teleport
+      ItemMapping: Add Tumeken's shadow
+      ItemMapping: Add Arcane sigil component of Elidinis' ward
+      ItemMapping: Fix Tumeken's shadow definition
+
+LlemonDuck (1):
+      devtools: highlight current region in locations tool inside instances
+
+Max Weber (4):
+      rl-client/PluginHubPanel: release entries when not active
+      rl-client/PluginHubPanel: defer loading of icons until they are visible
+      client/PluginHubPanel: reactivate with filter set correctly
+      client/PluginHubPanel: fix reload on (un)install
+
+Ron Young (1):
+      loginscreen: add toa background
+
+Sam (1):
+      skill calc: Fix Menaphite remedy level and xp values (#15718)
+
+SirWrain (2):
+      achievementdiary: fix ardy elite castle wars task
+      achievementdiary: fix fremennik gwd task text (#15552)
+
+Skretzo (1):
+      client: fix logout timer javadoc typo
+
+ThePharros (2):
+      agility: add Necropolis obstacle (#15706)
+      discord: Add Necropolis, Ruins of Ullek, and Tombs of Amascut regions (#15757)
+
+Yestin L. Harrison (1):
+      notifier: get terminal-notifier from login shell on macOS
+
+YvesW (1):
+      chat commands: fix !lvl toa expert
+
+geheur (2):
+      chat commands: fix short name of kril tsutsaroth
+      ba: fix detecting end of wave
+</code></pre>
+</div>
+    </content>
+  </entry>
+  
+  <entry>
+    <id>https://runelite.net/blog/show/2022-09-04-recent-performance-regressions-and-tombs-of-amascut</id>
+    <link href="https://runelite.net/blog/show/2022-09-04-recent-performance-regressions-and-tombs-of-amascut" />
+    <title>Recent performance regressions and Tombs of Amascut</title>
+    <summary>Recent performance regressions and Tombs of Amascut</summary>
+    <updated>2022-09-04T19:00:00.000Z</updated>
+    <author>
+      <name>Adam</name>
+    </author>
+    <content type="xhtml">
+      <div xmlns="http://www.w3.org/1999/xhtml"><p>This is a bit of a tech blog about the ToA release and the stability issues the client has been having, feel free to skip it if that isn't your thing.</p>
+<hr />
+<p>After the release of ToA on Aug 24 we saw a large number of reports from users about the client destabilizing in ToA, either crashing, or running with low FPS. We did not have good answers for players at that time due to the confusion of receiving so many error reports, often conflicting, at the same time. We now feel like we've identified and fixed the root cause, which this post is about.</p>
+<p>Note that this post is about <em>client lag</em>, which is the client dropping frames, and not <em>network lag</em>, which is the time between an action being done and the server receiving the action, nor <em>server lag</em>, which is when the server skips ticks, causing time to essentially stop.</p>
+<p>The cause of the lag issues have been due to Java garbage collection pressure. There are two different types of pressure which we will cover:</p>
+<p>The first is caused by there being very little free memory. It becomes difficult to allocate additional memory since it often first require the garbage collector to run. The garbage collector will pause the client until it is able to find enough memory to release to fulfil each allocation. Since most of the memory is in use, it is a difficult and slow process, leading to long pauses and lag.</p>
+<p>The second is caused by many small allocations. The garbage collector must keep track of these many different small allocations and handle releasing all of them, which is computationally expensive. So while there <em>is</em> memory available to be released, and potentially even free memory available, the process of releasing it is slow enough that it causes pauses whenever the GC is run.</p>
+<p>After identifying the GC pressure issues fairly early on after the update, we began recommending users update their launcher if they are on one of the old pre-2.0 launchers (1.6, 1.5, and older). The newer launchers use the newer G1 garbage collector, while the 1.x launcher uses Concurrent Mark Sweep. G1 runs faster (that is, releases memory, faster) as well as pauses for a shorter amount of time (less frame drops), so is a good stop gap against type 2 pressure. This is not really a solution, and is instead trying to solve a symptom of the real problem, but on sufficiently powerful machines worked for some people.</p>
+<p>If you still do have an old launcher (check the <code>Info</code> panel in the client), it can be a good idea to update it due to these GC changes - even though we do believe the problems to be fixed even on the older launchers. A common misconception is that the launcher automatically updates itself, but that is not the case. The launcher automatically updates the client, but there is no functionality to update the launcher.</p>
+<p>In update 202 from last December, Jagex added a new-to-OSRS animation system. This new system allows Jagex to make much more fine-grained animations with smoother movements, and take advantage of the full 50FPS the client usually runs at - which most animations do not. This system was used for the first time with the release of ToA, and the code for it is the cause of the GC pressure. Notably it <em>both</em> uses a large amount of memory and also causes a large number of allocations.</p>
+<p>This problem compounded badly with 3rd party plugins. As you may know, it is possible to install 3rd party plugins into RuneLite via the pluginhub. The pluginhub plugins vary in quality wildly, and some of them consume <em>lots</em> of memory. We have in total allocated 512mb at the JVM for the entire client, which leaves conservatively about 150mb of memory for all 3rd party plugins. With the new animation code using so much memory, users with too many bad plugins also noticed performance issues, even on the newer launcher. The high variance in plugin installations between users made it difficult to identify exactly how many problems there were and where they were.</p>
+<p>While it is possible to increase the 512mb memory limit, I think it should be a measure of last resort. It will help if the application is legitimately out of memory, but if it isn't it can actually have negative consequences. Java prefers to only GC infrequently, or if it has to, and so prefers to allocate new memory vs reusing old memory. Setting an artificially high heap size can then end up with an application with a relatively high memory footprint that is mostly garbage. This just eats memory unnecessarily, and can slow down GC times as there is more to collect. RuneLite typically runs at 170-350mb (varies greatly with location and also plugins), but safely under the 512mb limit.</p>
+<p>Since the Jagex animation code is not well optimized, we began looking at ways to improve it. On Aug 26 we pushed out a patch which rewrote some of the Jagex animation code to minimize the number of live objects it uses for animations. We do this by inlining small arrays, typically vectors or matrices, into their enclosing class, such as:</p>
+<pre><code class="language-java">class Vec4 {
+      float[] v = new float[4];
+}
+</code></pre>
+<p>into</p>
+<pre><code class="language-java">class Vec4 {
+      float v0;
+      float v1;
+      float v2;
+      float v3;
+}
+</code></pre>
+<p>The former has 2 objects, the <code>Vec4</code> and the <code>float[4]</code>, while the latter only has one, despite using the same amount of memory.</p>
+<p>This removed an enormous amount of type 2 GC pressure, which fixed the large problems for most people. At this point, running the client in safe mode to disable 3rd party plugins worked very well, and we could no longer find any credible crash reports of the client when running in safe mode.</p>
+<p>With that fixed, the client was still using a much larger amount of memory than normal, just with less live objects. Thus the remaining issue reports were all from users with type 1 GC pressure due to pluginhub plugins. We began digging through user reported heap dumps and identified a few notable offenders, most prominently: the HD plugin.</p>
+<p>The HD plugin has complex code dealing with coloring models, and as a result tries to cache that computation to reuse between frames. This normally is okay, and has been working correctly for some time. However with the addition of the new animations, particularly animations which affect translucency, since the number of unique frames the animated models has is <em>much</em> higher than what would normally be seen, it was computing and caching a lot of color data. This snowballed a bit when combined with the very large sizes of the ToA boss models (many are well over 5k faces), which are much larger than anything else you would typically find. I've excluded most of these from being cached, and also optimized the way which is it storing the cached data. This went out in updates on Aug 31 and Sep 1 as 1.1.3.1 and 1.1.3.2, and from all reports has removed the ToA lag with the HD plugin enabled.</p>
+<p>After this we began looking at ways to optimize the Jagex client further to not use as much memory. We found the vast majority of the memory used by the animation system was used to precompute animation tables, however, precomputing them was not noticeably faster than just computing the animations on demand. We then proceeded to rewrite large portions of the new animation system, and were able to remove most of the additional memory overhead incurred by the new system. This went out in an update on Sep 3.</p>
+<hr />
+<p>With that, we think that all of the ToA performance regressions are solved. Hopefully it stays that way. Sorry for all of the issues over the last couple weeks.</p>
+<p>- Adam</p>
+</div>
+    </content>
+  </entry>
+  
+  <entry>
+    <id>https://runelite.net/blog/show/2022-08-21-1.8.31-Release</id>
+    <link href="https://runelite.net/blog/show/2022-08-21-1.8.31-Release" />
+    <title>1.8.31 Release</title>
+    <summary>Custom UI swaps and ToA preparations</summary>
+    <updated>2022-08-21T19:00:00.000Z</updated>
+    <author>
+      <name>Adam</name>
+    </author>
+    <content type="xhtml">
+      <div xmlns="http://www.w3.org/1999/xhtml"><h3>UI swaps</h3>
+<p>Many UI elements now support the shift-right-click swap configuration that we've been standardizing on lately. This works on things such as spells, items in the bank, and in shops. When set on items in the bank or on a shop interface, the configuration is per-item, which allow easily configuring eg. one item as withdraw-x while another is withdraw-1.</p>
+<p><img src="/img/blog/1.8.31-Release/uiswap1.png" alt="uiswap1" />
+<img src="/img/blog/1.8.31-Release/uiswap2.png" alt="uiswap2" /></p>
+<p>Due to the standardization of swaps around the shift-click configure method, many of the existing swaps built into the plugin are no longer necessary. We're removed some of the less used swaps with this update. If you notice one is missing, shift-right click the npc/object/ui and re-configure it using the new system.</p>
+<h3>Tombs of Amascut</h3>
+<p>We've been working on updates in preparation for Tombs of Amascut coming on the 24th. There is a new runepouch overlay for runepouches with 4 rune stacks due to the text not fitting on the rune pouch. It displays a green bar for rune quantities 1-10k and a red bar for anything under 1k. The old display format is still used for pouches with less than 4 stacks of runes.</p>
+<p><img src="/img/blog/1.8.31-Release/runepouch.png" alt="runepouch" /></p>
+<p>ToA has been added to the hiscore panel:</p>
+<p><img src="/img/blog/1.8.31-Release/hiscores.png" alt="hiscores" /></p>
+<p>Additionally, we've been able to add loot tracking for Tombs of Amascut already and expect it to be working for release day.</p>
+<p>There are also several smaller improvements and bug fixes, including:</p>
+<ul>
+<li>Minor graphical inconsistences on GPU with <code>compute shaders</code> off have been fixed, such as the GE floor appearing to have white dots between the tiles</li>
+<li>The maximum model size on GPU with <code>compute shaders</code> on has been increased. This may cause some additional GPU load in busy areas, but is required to get the ToA bosses to render correctly.</li>
+<li>Clan members are included in the hiscore search name autocompleter</li>
+<li>Clan members previous chat message ranks no longer change to &quot;unranked&quot; after they log out</li>
+<li>Friends chat rank icon now displays to the left of the user's name instead of to the right of the channel name</li>
+<li>Bank searching by value now supports searching by per-item value. For example, <code>per &gt;5k</code> finds any stack of items where the individual items are worth more than 5k each, while <code>&gt;5k</code> finds any stack of items worth more than 5k total.</li>
+<li>Members items in a free to play world now show their name with <code>(Members)</code> appended, eg <code>Abyssal whip (Members)</code>, instead of <code>Members object</code>. Making it easier to identify items on free to play worlds.</li>
+<li>The loot tracker no longer shows member items as <code>Members object</code> when logged into a free to play world.</li>
+<li>The double ammo mould has been added to the smelting plugin</li>
+<li>Clown <code>:O)</code> and cow <code>3:O</code> have been added to the Emoji plugin.</li>
+<li>The agility plugin once again highlights the skull slope obstacle clickbox</li>
+</ul>
+<p>Enjoy!</p>
+<p>- Adam</p>
+<h3>New commits</h3>
+<p>We had 20 contributors this update!</p>
+<pre><code>Adam (59):
+      gpu: remove double clickbox check with compute shaders off
+      pom: remove ciManagement
+      gpu: remove double getModel call with compute shaders off
+      gpu: remove unused wrapper functions
+      clues: fix wizard traiborn cryptic clue text
+      gpu: combine small and large comp shaders
+      gpu: fix shader test
+      api: update MenuEntry getItemId javadoc
+      name autocompleter: include clan members
+      client: remove jogl deps
+      gpu: fix shader test
+      spec counter: only count hitsplats applied to spec target
+      gpu: set custom org.lwjgl.system.SharedLibraryExtractDirectory
+      npc manager: fix npe if srn npc data request is unsuccessful
+      npc highlight: add option to ignore pets
+      npc highlight: minor code cleanup
+      chat commands: fix findHiscoreSkill finding pvp arena - ranked
+      chat commands: show unranked for unranked skills
+      api: add max damage hitsplats
+      api: use magicconstant for hitsplat type ids
+      config: use config api v2
+      config client: use injected gson
+      Replace references to RuneLiteAPI.GSON with injected gson
+      gpu: use floats for projection on cpu
+      gpu: increase max faces to 6144
+      loottracker: add toa
+      rune pouch: add grid view
+      chat commands: add toa tests
+      chat commands: use client enum for pet list
+      menu swapper: remove recite-prayer swap
+      menu swapper: remove battlestaff swap
+      menu swapper: remove guzzle swap
+      menu swapper: remove quick-leave swap
+      menu swapper: remove house advertisement swap
+      menu swapper: remove hardwood grove swap
+      menu swapper: remove dive swap
+      menu swapper: remove gauntlet swap
+      menu swapper: remove claim slime swap
+      menu swapper: remove contract swap
+      menu swapper: remove decant swap
+      menu swapper: remove enchant swap
+      menu swapper: remove send-parcel swap
+      menu swapper: remove misc swap
+      menu swapper: remove nets swap
+      menu swapper: remove start-minigame swap
+      menu swapper: remove repairs swap
+      menu swapper: remove task swap
+      menu swapper: add custom ui swaps
+      menu swapper: remove shift click teleport swap
+      menu swapper: remove house teleport swap
+      menu swapper: remove npc contact swap
+      menu swapper: move bank withdraw and deposit swaps to ui
+      hiscores: add toa
+      api: add accessors for pose animation frame
+      api: add scene max plane accessor
+      chat channels: use script events for inserting fc rank
+      menu swapper: exclude (worn) item swaps from ui swap check
+      HotkeyButton: use mouse1 to reset hotkey
+      ChatBuilder: use clansettings for finding member rank
+
+Birjot (1):
+      game: Add isDying support for Damis transformations (#15293)
+
+Cole Springer (1):
+      xp tracker: Fix &quot;Hide maxed skills&quot; config description (#15408)
+
+David Reess (1):
+      bank: add individual item value search (#15015)
+
+Enriath (6):
+      runelite-api: add real item name support
+      plugins: update various plugins to use getMembersName
+      skill calculator: use guice injection
+      skill calculator: adjust bonuses to be actual multipliers
+      skill calculator: don't show members actions or bonuses on f2p worlds
+      skill calculator: reload panel when switching P2P &lt;-&gt; F2P
+
+Eric Sciullo (1):
+      emoji: Add clown emoji (#15382)
+
+Fiber | James (1):
+      blastfurnace: add smiths gloves (i) to ice gloves check (#15162)
+
+HcaryShours (1):
+      agility obstacles: fix skull slope highlighting
+
+JZomDev (1):
+      smelting plugin: support double ammo mould
+
+Jordan Atwood (10):
+      clues: Update clue text from 2022-07-27 update
+      AgilityShortcut: Add Necropolis stepping stones
+      world map: Add Necropolis and Ullek region locations
+      game: Add isDying support for Skotizo altar transformations
+      dev tools: Use non-instanced region ID for tile location
+      Varbits: Fix PVP_SPEC_ORB javadoc
+      Varbits: Fix TELEBLOCK javadoc html
+      HotColdSolver: Simplify temperature change filtering
+      HotColdSolver: Improve temperature change narrowing
+      clues: Fix named object clue plane change scan
+
+Jordan Hans (1):
+      roof removal: add Barrows tunnel override
+
+Macweese (2):
+      timers: Track charge spell duration using varp
+      timers: Track teleblock duration using varbit
+
+Max Weber (2):
+      rl-client: update for split music &amp; emote scroll widgets
+      rl-client: dynamically configure hiscore result indexes
+
+Nick (1):
+      clues: add fairy ring to Isle of Souls step
+
+Nick Wolff (1):
+      roof removal: add etceteria overrides
+
+Paul Norton (2):
+      skill calculator: per-action bonus applicability
+      skill calculator: ignore (daeyalt) bonus for camdozaal cores
+
+Sam (1):
+      fishing: Add missing fish to shrimp and trout spot text (#15472)
+
+SirWrain (2):
+      agility shortcut: add meiyerditch lab (#15183)
+      worldmap: add true blood altar location (#15182)
+
+Spencer Kane (1):
+      clues: fix world map location for Vannaka (#15211)
+
+Woodse07 (1):
+      emoji: add cow emoji
+</code></pre>
+</div>
+    </content>
+  </entry>
   
   <entry>
     <id>https://runelite.net/blog/show/2022-07-13-1.8.27-Release</id>
